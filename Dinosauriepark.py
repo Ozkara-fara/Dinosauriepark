@@ -79,7 +79,8 @@ def search_dinosaur(name_or_species):
             print(f"Level: {dinosaur['Level']}")
             print(f"Food: {dinosaur['Food']}")
     else:
-        print(f"Dinosaurs with the name or species '{name_or_species}' not found in park")        
+        print(f"Dinosaurs with the name or species '{name_or_species}' not found in park")  
+        #hejhej hemskt mycket hej      
 
 #function för att ta bort en dinosaurie från parken med hjälp av dess namn
 def remove_dinosaur(name):#ta bort dinosaurien från dictionary
