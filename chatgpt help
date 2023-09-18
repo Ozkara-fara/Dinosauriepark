@@ -1,0 +1,115 @@
+# Create an empty dictionary to represent the dinosaur park
+dinosaur_park = {}
+
+# Function to add new dinosaurs to the park
+def add_dinosaur():
+    # Gather information from the user to add dinosaurs to the park in the dictionary
+    name = input("Enter the name of the dinosaur: ")
+    species = input("Enter the species of the dinosaur: ")
+    
+    # Level is an integer and must be provided as a number. Prompt the user until a valid number is entered.
+    while True:
+        try:
+            level = int(input("Enter the level of the dinosaur: "))
+            break  # Exit the loop if the input is a valid integer
+        except ValueError:
+            print("Invalid input. Please enter a valid number for the level.")
+    
+    food = input("Enter what food the dinosaur prefers: ")
+
+    dinosaur = {
+        "Name": name,
+        "Species": species,
+        "Level": level,
+        "Food": food,  # Fixed typo: Changed "Preferred food" to "Food"
+    }
+
+    # Check if the species already exists in the park
+    if species not in dinosaur_park:
+        dinosaur_park[species] = []  # Initialize an empty list for the new species
+    dinosaur_park[species].append(dinosaur)
+    print(f"{name} has been added to the dinosaur park.")   
+
+# Function to list all dinosaurs in the park
+def list_dinosaurs():
+    # Create a dictionary to keep track of species counts
+    species_count = {}
+
+    if not dinosaur_park:
+       print("There are no Dinosaurs in the park")
+    else:
+        print("List of Dinosaurs by Species:")
+    for species, dinosaurs in dinosaur_park.items():
+        species_count[species] = len(dinosaurs)  # Count the number of dinosaurs in each species
+    
+    for species, count in species_count.items():
+        print(f"Species: {species}")
+        print(f"Number of {species}: {count}")
+
+        for dinosaur in dinosaur_park[species]:
+            print(f"Name: {dinosaur['Name']}")
+            print(f"Level: {dinosaur['Level']}")
+            print(f"Preferred food: {dinosaur['Food']}")  # Fixed typo: Changed "Preferred food" to "Food"
+
+# Function to search for dinosaurs by name or species
+def search_dinosaur(name_or_species):
+    # Search for dinosaurs by name or species and display their information
+    found_dinosaurs = []
+    for species, dinosaurs in dinosaur_park.items():
+        for dinosaur in dinosaurs:
+            if name_or_species.lower() in dinosaur['Name'].lower() or name_or_species.lower() in dinosaur['Species'].lower():
+                found_dinosaurs.append(dinosaur)
+
+    if found_dinosaurs:
+        print(f"Dinosaurs Found - Details:")
+        for dinosaur in found_dinosaurs:
+            print(f"Name: {dinosaur['Name']}")
+            print(f"Species: {dinosaur['Species']}")
+            print(f"Level: {dinosaur['Level']}")
+            print(f"Food: {dinosaur['Food']}")  # Fixed typo: Changed "Preferred food" to "Food"
+    else:
+        print(f"Dinosaurs with the name or species '{name_or_species}' not found in park")        
+
+# Function to remove a dinosaur from the park by name
+def remove_dinosaur(name, number):
+    # Remove dinosaurs from the dictionary
+    if name in dinosaur_park:
+        dinosaurs = dinosaur_park[name]
+        if number <= len(dinosaurs):
+            for _ in range(number):
+                dinosaurs.pop()  # Remove the last dinosaur from the list
+            if not dinosaurs:
+                del dinosaur_park[name]  # Remove the species if no dinosaurs are left
+            print(f"All {number} {name} have been removed from your park")
+        else:
+            print(f"Cannot remove {number} {name} as you have only {len(dinosaurs)} in your park")
+    else:
+        print(f"Dinosaur with the name '{name}' not found in park")
+
+# Main menu
+while True:
+    print("\nDinosaur Park Menu:")
+    print("1. Add a Dinosaur")
+    print("2. List Dinosaurs")
+    print("3. Search for a Dinosaur")
+    print("4. Remove a Dinosaur")
+    print("5. Quit")
+
+    choice = input("Enter your choice (1-5): ")
+
+    if choice == "1":
+        add_dinosaur()
+    elif choice == "2":
+        list_dinosaurs()
+    elif choice == "3":
+        name = input("Enter the name or species of the dinosaur to search for: ")
+        search_dinosaur(name)
+    elif choice == "4":
+        name = input("Enter the name of the dinosaur to remove: ")
+        number = int(input("Enter how many of this dinosaur to remove: "))
+        remove_dinosaur(name, number)
+    elif choice == "5":
+        break
+    else:
+        print("Invalid choice. Please select a valid option.")
+
